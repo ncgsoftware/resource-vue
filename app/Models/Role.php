@@ -7,6 +7,9 @@
     use Illuminate\Database\Eloquent\Model;
     use Illuminate\Database\Eloquent\Relations\HasMany;
 
+    /**
+     * @method static where(string[] $array)
+     */
     class Role extends Model
     {
         /** @use HasFactory<RoleFactory> */

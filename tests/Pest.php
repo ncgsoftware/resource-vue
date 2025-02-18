@@ -11,9 +11,16 @@
 |
 */
 
-pest()->extend(Tests\TestCase::class)
+    use Database\Seeders\RoleSeeder;
+
+    pest()->extend(Tests\TestCase::class)
     ->use(Illuminate\Foundation\Testing\LazilyRefreshDatabase::class)
-    ->in('Feature');
+    ->in('Feature')
+    ->beforeEach(function () {
+            $this->seed(RoleSeeder::class);
+        })
+    ->in('Feature', 'Unit');
+
 
 /*
 |--------------------------------------------------------------------------

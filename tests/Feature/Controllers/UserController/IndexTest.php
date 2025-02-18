@@ -15,8 +15,7 @@
     });
 
     it('should return the correct component', function () {
-        withoutExceptionHandling();
-        $adminRole = Role::factory()->create(['auth_code' => 'super-admin']);
+        $adminRole = Role::where(['auth_code' => 'super-admin'])->first();
         $superAdmin = User::factory()->for($adminRole)->create();
 
         actingAs($superAdmin)
@@ -29,9 +28,9 @@
             ->get(route('admin.users.index'))
             ->assertComponent('Admin/Users/Index');
     })->with([
-        [fn() => User::factory()->create(['role_id' => Role::factory()->create(['auth_code' => 'super-admin'])]), 'Super Administrator'],
-        [fn() => User::factory()->create(['role_id' => Role::factory()->create(['auth_code' => 'admin'])]), 'Administrator'],
-        [fn() => User::factory()->create(['role_id' => Role::factory()->create(['auth_code' => 'manager'])]), 'Manager']
+        [fn() => User::factory()->create(['role_id' => Role::where(['auth_code' => 'super-admin'])->first()]), 'Super Administrator'],
+        [fn() => User::factory()->create(['role_id' => Role::where(['auth_code' => 'admin'])->first()]), 'Administrator'],
+        [fn() => User::factory()->create(['role_id' => Role::where(['auth_code' => 'manager'])->first()]), 'Manager']
     ]);
 
     it('disallows moderators, registered users, and unverified users to see user list',
@@ -40,13 +39,13 @@
                 ->get(route('admin.users.index'))
                 ->assertForbidden();
         })->with([
-        [fn() => User::factory()->create(['role_id' => Role::factory()->create(['auth_code' => 'moderator'])]), 'Moderator'],
-        [fn() => User::factory()->create(['role_id' => Role::factory()->create(['auth_code' => 'registered'])]), 'Registered User'],
-        [fn() => User::factory()->create(['role_id' => Role::factory()->create(['auth_code' => 'unvalidated'])]), 'Unverified User']
+        [fn() => User::factory()->create(['role_id' => Role::where(['auth_code' => 'moderator'])->first()]), 'Moderator'],
+        [fn() => User::factory()->create(['role_id' => Role::where(['auth_code' => 'registered'])->first()]), 'Registered User'],
+        [fn() => User::factory()->create(['role_id' => Role::where(['auth_code' => 'unvalidated'])->first()]), 'Unverified User']
     ]);
 
     it('passes a users property to the view', function () {
-        $adminRole = Role::factory()->create(['auth_code' => 'super-admin']);
+        $adminRole = Role::where(['auth_code' => 'super-admin'])->first();
         $superAdmin = User::factory()->for($adminRole)->create();
 
         actingAs($superAdmin)
@@ -59,7 +58,7 @@
 
     it('it gets paginated resource', function () {
         withoutExceptionHandling();
-        $adminRole = Role::factory()->create(['auth_code' => 'super-admin']);
+        $adminRole = Role::where(['auth_code' => 'super-admin'])->first();
         $superAdmin = User::factory()->for($adminRole)->create();
 
         User::factory(2)->create();
@@ -72,10 +71,8 @@
     });
 
     it('it passes Roles to the view', function () {
-        $adminRole = Role::factory()->create(['auth_code' => 'super-admin']);
+        $adminRole = Role::where(['auth_code' => 'super-admin'])->first();
         $superAdmin = User::factory()->for($adminRole)->create();
-
-        Role::factory(3)->create();
 
         $roles = Role::all();
 
@@ -85,10 +82,10 @@
     });
 
     it('it passes selected role to the view', function () {
-        $adminRole = Role::factory()->create(['auth_code' => 'super-admin']);
+        $adminRole = Role::where(['auth_code' => 'super-admin'])->first();
         $superAdmin = User::factory()->for($adminRole)->create();
 
-        $selectedRole = Role::factory()->create();
+        $selectedRole = Role::where(['auth_code' => 'manager'])->first();
 
         actingAs($superAdmin)
             ->get(route('admin.users.index', ['role' => $selectedRole]))

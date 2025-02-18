@@ -13,7 +13,7 @@
             Schema::create('roles', function (Blueprint $table) {
                 $table->id();
                 $table->integer('code')->default(5);
-                $table->string('auth_code');
+                $table->string('auth_code')->unique();
                 $table->string('name');
                 $table->string('description');
                 $table->timestamps();

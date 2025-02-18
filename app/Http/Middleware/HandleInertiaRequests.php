@@ -36,7 +36,12 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         return array_merge(parent::share($request), [
-            //
+            // Lazily...
+            'auth.user' => function () use ($request) {
+                return $request->user()
+                    ? $request->user()->only(['id', 'name', 'profile_photo_path', 'profile_photo_url', 'role'])
+                    : null;
+            },
         ]);
     }
 }
