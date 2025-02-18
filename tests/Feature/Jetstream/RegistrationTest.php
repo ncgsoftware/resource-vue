@@ -20,6 +20,7 @@ test('registration screen cannot be rendered if support is disabled', function (
 }, 'Registration support is enabled.');
 
 test('new users can register', function () {
+
     $response = $this->post('/register', [
         'name' => 'Test User',
         'email' => 'test@example.com',

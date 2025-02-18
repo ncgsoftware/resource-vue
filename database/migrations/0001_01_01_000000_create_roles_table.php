@@ -10,14 +10,12 @@
          */
         public function up(): void
         {
-            Schema::create('personal_access_tokens', function (Blueprint $table) {
+            Schema::create('roles', function (Blueprint $table) {
                 $table->id();
-                $table->morphs('tokenable');
+                $table->integer('code')->default(5);
+                $table->string('auth_code');
                 $table->string('name');
-                $table->string('token', 64)->unique();
-                $table->text('abilities')->nullable();
-                $table->timestamp('last_used_at')->nullable();
-                $table->timestamp('expires_at')->nullable();
+                $table->string('description');
                 $table->timestamps();
             });
         }
@@ -27,6 +25,6 @@
          */
         public function down(): void
         {
-            Schema::dropIfExists('personal_access_tokens');
+            Schema::dropIfExists('roles');
         }
     };
