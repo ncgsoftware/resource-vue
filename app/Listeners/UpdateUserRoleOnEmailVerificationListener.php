@@ -19,7 +19,6 @@
         public function handle(Verified $event): void
         {
             $role = Role::query()->where('auth_code', 'registered')->firstOrFail();
-            $event->user->role()->associate($role);
-            $event->user->save();
+            $event->user->role()->associate($role)->save();
         }
     }
