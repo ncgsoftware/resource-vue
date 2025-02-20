@@ -41,7 +41,7 @@
         })->with([
         [fn() => User::factory()->create(['role_id' => Role::where(['auth_code' => 'moderator'])->first()]), 'Moderator'],
         [fn() => User::factory()->create(['role_id' => Role::where(['auth_code' => 'registered'])->first()]), 'Registered User'],
-        [fn() => User::factory()->create(['role_id' => Role::where(['auth_code' => 'unvalidated'])->first()]), 'Unverified User']
+        [fn() => User::factory()->create(['role_id' => Role::where(['auth_code' => 'unverified'])->first()]), 'Unverified User']
     ]);
 
     it('passes a users property to the view', function () {

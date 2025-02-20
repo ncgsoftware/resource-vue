@@ -49,8 +49,8 @@
 
             Role::factory()->create([
                 'code' => 5,
-                'auth_code' => 'unvalidated',
-                'name' => 'Unvalidated Email User',
+                'auth_code' => 'unverified',
+                'name' => 'Unverified User',
                 'description' => 'User has registered but not validated email',
             ]);
         }

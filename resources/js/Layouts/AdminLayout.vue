@@ -49,12 +49,16 @@ const logout = () => {
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Home
+                                    Application
                                 </NavLink>
 
-                                <NavLink v-if="$page.props.auth.user.permissions.view_admin_dashboard" :href="route('admin.dashboard')" :active="route().current('admin.dashboard')">
-                                  Administrator Dashboard
-                                </NavLink>
+                              <NavLink :href="route('admin.dashboard')" :active="route().current('admin.dashboard')">
+                                Administrator Dashboard
+                              </NavLink>
+
+                              <NavLink v-if="$page.props.auth.user.permissions.view_admin_user_list" :href="route('admin.users.index')" :active="route().current('admin.users.index')">
+                                Users
+                              </NavLink>
                             </div>
                         </div>
 
@@ -117,10 +121,15 @@ const logout = () => {
                                 </Dropdown>
                             </div>
 
+                          <div>
+                            <span class="text-sm text-gray-500">{{ $page.props.auth.user.name }}</span>
+                          </div>
                             <!-- Settings Dropdown -->
                             <div class="ms-3 relative">
+
                                 <Dropdown align="right" width="48">
                                     <template #trigger>
+
                                         <button v-if="$page.props.jetstream.managesProfilePhotos" class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
                                             <img class="size-8 rounded-full object-cover" :src="$page.props.auth.user.profile_photo_url" :alt="$page.props.auth.user.name">
                                         </button>
@@ -198,6 +207,14 @@ const logout = () => {
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
                         </ResponsiveNavLink>
+
+                      <ResponsiveNavLink :href="route('admin.dashboard')" :active="route().current('admin.dashboard')">
+                        Dashboard
+                      </ResponsiveNavLink>
+
+                      <ResponsiveNavLink v-if="$page.props.auth.user.permissions.view_admin_user_list" :href="route('admin.users.index')" :active="route().current('admin.dashboard')">
+                        Users
+                      </ResponsiveNavLink>
                     </div>
 
                     <!-- Responsive Settings Options -->

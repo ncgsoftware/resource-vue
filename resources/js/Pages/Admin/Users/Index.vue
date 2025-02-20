@@ -1,5 +1,4 @@
 <script setup>
-import AppLayout from "@/Layouts/AppLayout.vue";
 import Pagination from "@/Components/Pagination.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
@@ -7,6 +6,7 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import DangerButton from "@/Components/DangerButton.vue";
 import Pill from "@/Components/Pill.vue";
 import {useForm, usePage} from "@inertiajs/vue3";
+import AdminLayout from "@/Layouts/AdminLayout.vue";
 
 const props = defineProps(['users', 'roles', 'selectedRole', 'query']);
 
@@ -24,7 +24,7 @@ const clearSearch = () => {
 </script>
 
 <template>
-  <AppLayout title="User Administration">
+  <AdminLayout title="User Administration">
     <template #header>
       <h2 class="font-semibold text-xl text-gray-800 leading-tight">
           User Administration
@@ -88,9 +88,15 @@ const clearSearch = () => {
                 <td class="py-4">{{ user.email }}</td>
                 <td class="py-4">{{ user.role_name }}</td>
                 <td class="flex py-4 justify-end">
-                  <a v-if="user.can.update" href=""
+
+                  <a v-if="user.can.disable" href=""
                      class="bg-gray-500 hover:bg-gray-600 mr-1 py-2 px-3 rounded-md text-white">
-                    Edit
+                    Disable
+                  </a>
+
+                  <a v-if="user.can.changerole" href=""
+                     class="bg-gray-500 hover:bg-gray-600 mr-1 py-2 px-3 rounded-md text-white">
+                    Change Role
                   </a>
 
                   <form v-if="user.can.delete"
@@ -111,7 +117,7 @@ const clearSearch = () => {
         </div>
       </div>
     </div>
-  </AppLayout>
+  </AdminLayout>
 </template>
 
 <style scoped>

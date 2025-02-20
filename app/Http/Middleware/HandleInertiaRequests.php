@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -38,9 +40,24 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             // Lazily...
             'auth.user' => function () use ($request) {
-                return $request->user()
-                    ? $request->user()->only(['id', 'name', 'profile_photo_path', 'profile_photo_url', 'role'])
-                    : null;
+                $attributes = null;
+
+                if ($request->user()){
+                    $attributes = $request->user()->only(['id', 'name', 'profile_photo_path', 'profile_photo_url', 'auth_code']);
+
+                    $attributes['permissions']['view_admin_dashboard'] = $request->user()?->can('viewAdminDashboard', User::class);
+
+                    $request->routeIs('admin.*')
+                        ? $attributes['permissions']['view_admin_user_list'] = $request->user()?->can('viewAny', User::class)
+                        : null;
+//                    if ($request->routeIs('admin.*')){
+//                        $attributes['permissions']['view_admin_user_list'] = $request->user()?->can('viewAny', User::class);
+//                    }
+                }
+                return $attributes;
+//                return $request->user()
+//                    ? $request->user()->only(['id', 'name', 'profile_photo_path', 'profile_photo_url', 'auth_code'])
+//                    : null;
             },
         ]);
     }
