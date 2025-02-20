@@ -10,8 +10,8 @@
 | need to change it using the "pest()" function to bind a different classes or traits.
 |
 */
-
     use Database\Seeders\RoleSeeder;
+
 
     pest()->extend(Tests\TestCase::class)
     ->use(Illuminate\Foundation\Testing\LazilyRefreshDatabase::class)
