@@ -3,8 +3,7 @@ version: 8.2
 preset: laravel
 
 enabled:
-  - trailing_comma_in_multiline_definition
-  
+
 finder:
   exclude:
     - 'tests'
