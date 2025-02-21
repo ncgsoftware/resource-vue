@@ -1,6 +1,7 @@
 <?php
     declare(strict_types=1);
 
+    use App\Http\Controllers\UserController;
     use App\Http\Resources\RoleResource;
     Use App\Models\Role;
     use App\Http\Resources\UserAdministrationResource;
@@ -9,6 +10,8 @@
     use function Pest\Laravel\get;
     use Inertia\Testing\AssertableInertia as Assert;
     use function Pest\Laravel\withoutExceptionHandling;
+
+    covers(UserController::class);
 
     it('requires authentication', function () {
         get(route('admin.users.index'))
