@@ -1,0 +1,23 @@
+version:
+  - 8.2
+  - 8.3
+
+
+preset: laravel
+
+disable:
+  - "trailing_comma_in_multiline_definition"
+finder:
+  exclude:
+    - 'tests'
+    - "modules"
+    - "node_modules"
+    - "nova"
+    - "nova-components"
+    - "storage"
+    - "spark"
+    - "vendor"
+  name: "*.php"
+  not-name:
+    - "*.blade.php"
+    - "_ide_helper.php"
