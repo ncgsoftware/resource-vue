@@ -6,7 +6,7 @@ version:
 preset: laravel
 
 disable:
-  - "trailing_comma_in_multiline_definition"
+  - trailing_comma_in_multiline_definition
 finder:
   exclude:
     - 'tests'
