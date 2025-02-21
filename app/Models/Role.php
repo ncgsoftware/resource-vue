@@ -1,6 +1,6 @@
 <?php
 
-    namespace App\Models;
+namespace App\Models;
 
     use Database\Factories\RoleFactory;
     use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,5 +19,4 @@
         {
             return $this->hasMany(User::class);
         }
-
     }

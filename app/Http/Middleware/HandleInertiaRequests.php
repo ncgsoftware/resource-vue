@@ -1,6 +1,6 @@
 <?php
 
-    namespace App\Http\Middleware;
+namespace App\Http\Middleware;
 
     use App\Models\User;
     use Illuminate\Http\Request;
@@ -55,12 +55,13 @@
 
                         $request->routeIs('admin.*')
                             ? $attributes['permissions']['view_admin_user_list'] = $request->user()?->can('viewAny',
-                            User::class)
+                                User::class)
                             : null;
 //                    if ($request->routeIs('admin.*')){
 //                        $attributes['permissions']['view_admin_user_list'] = $request->user()?->can('viewAny', User::class);
 //                    }
                     }
+
                     return $attributes;
 //                return $request->user()
 //                    ? $request->user()->only(['id', 'name', 'profile_photo_path', 'profile_photo_url', 'auth_code'])

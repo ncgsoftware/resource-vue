@@ -1,17 +1,16 @@
 <?php
 
-    namespace App\Listeners;
+namespace App\Listeners;
 
     use App\Models\Role;
     use Illuminate\Auth\Events\Verified;
 
     /**
      * Listens for Illuminate\Auth\Events\Verified to be dispatched
-     * Updates a user role from 'unverified' to 'registered' when user verifies email address
+     * Updates a user role from 'unverified' to 'registered' when user verifies email address.
      */
     class UpdateUserRoleOnEmailVerificationListener
     {
-
         /**
          * @param  Verified  $event  //Illuminate\Auth\Events\Verified
          * @return void

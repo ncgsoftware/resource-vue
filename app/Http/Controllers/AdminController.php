@@ -8,12 +8,13 @@ use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 /**
- * General Administration Views Controller
+ * General Administration Views Controller.
  */
 class AdminController extends Controller
 {
     /**
-     * Admin dashboard view
+     * Admin dashboard view.
+     *
      * @param  Request  $request
      * @return \Inertia\Response
      */

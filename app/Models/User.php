@@ -71,17 +71,21 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * Get the 'auth_code' attribute value appended to model from the role relationship.
      * This appended 'auth_code' attribute is used in HandleInertiaRequests and is used for authorization level checks.
+     *
      * @return string
      */
-    public function getAuthCodeAttribute() : string {
+    public function getAuthCodeAttribute(): string
+    {
         return $this->role->auth_code;
     }
 
     /**
-     * User belongs to a role
+     * User belongs to a role.
+     *
      * @return BelongsTo
      */
-    public function role(): BelongsTo{
+    public function role(): BelongsTo
+    {
         return $this->belongsTo(Role::class);
     }
 
