@@ -5,7 +5,7 @@ version:
 
 preset: laravel
 
-disable:
+disabled:
   - trailing_comma_in_multiline_definition
 finder:
   exclude:
