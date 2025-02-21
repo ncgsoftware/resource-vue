@@ -13,6 +13,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 /**
  * @property string $name
@@ -27,11 +28,12 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens;
-
     /** @use HasFactory<UserFactory> */
     use HasFactory;
 
     use HasProfilePhoto;
+
+    use HasRoles;
     use Notifiable;
     use TwoFactorAuthenticatable;
 
@@ -72,18 +74,18 @@ class User extends Authenticatable implements MustVerifyEmail
      * Get the 'auth_code' attribute value appended to model from the role relationship.
      * This appended 'auth_code' attribute is used in HandleInertiaRequests and is used for authorization level checks.
      */
-    public function getAuthCodeAttribute(): string
-    {
-        return $this->role->auth_code;
-    }
+    //    public function getAuthCodeAttribute(): string
+    //    {
+    //        return $this->role->auth_code;
+    //    }
 
     /**
      * User belongs to a role.
      */
-    public function role(): BelongsTo
-    {
-        return $this->belongsTo(Role::class);
-    }
+    //    public function role(): BelongsTo
+    //    {
+    //        return $this->belongsTo(Role::class);
+    //    }
 
     /**
      * Get the attributes that should be cast.

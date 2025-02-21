@@ -14,11 +14,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(RoleSeeder::class);
-        $this->call(UserSeeder::class);
+        //        $this->call(RoleSeeder::class);
+        //        $this->call(UserSeeder::class);
 
-        $registeredRole = Role::where('auth_code', 'registered')->first();
+        //        $registeredRole = Role::where('auth_code', 'registered')->first();
 
-        User::factory(30)->create(['role_id' => $registeredRole->id]);
+        //        User::factory(30)->create(['role_id' => $registeredRole->id]);
     }
 }

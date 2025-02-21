@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('roles', function (Blueprint $table) {
-            $table->id();
-            $table->integer('code')->default(5);
-            $table->string('auth_code')->unique();
-            $table->string('name');
-            $table->string('description');
-            $table->timestamps();
-        });
+        //        Schema::create('roles', function (Blueprint $table) {
+        //            $table->id();
+        //            $table->integer('code')->default(5);
+        //            $table->string('auth_code')->unique();
+        //            $table->string('name');
+        //            $table->string('description');
+        //            $table->timestamps();
+        //        });
     }
 
     /**
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('roles');
+        //        Schema::dropIfExists('roles');
     }
 };
