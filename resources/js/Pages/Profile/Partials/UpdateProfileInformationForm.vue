@@ -159,7 +159,8 @@ const clearPhotoFileInput = () => {
                     <p class="text-sm mt-2">
                         Your email address is unverified.
 
-                        <Link
+                        <!--suppress HtmlWrongAttributeValue -->
+                      <Link
                             :href="route('verification.send')"
                             method="post"
                             as="button"

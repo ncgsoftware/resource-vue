@@ -1,26 +1,27 @@
 <?php
-    declare(strict_types=1);
 
-    use App\Models\Role;
-    use App\Models\User;
-    use Illuminate\Support\Facades\URL;
+declare(strict_types=1);
 
-    it('event Illuminate\Auth\Events\Verified to update user role from unverified to registered', function () {
+use App\Models\Role;
+use App\Models\User;
+use Illuminate\Support\Facades\URL;
 
-        $unverifiedRole = Role::query()->where('auth_code', 'unverified')->firstOrFail();
-        $registeredRole = Role::query()->where('auth_code', 'registered')->firstOrFail();
+it('event Illuminate\Auth\Events\Verified to update user role from unverified to registered', function () {
 
-        $user = User::factory()->for($unverifiedRole)->create(['email_verified_at' => null]);
+    $unverifiedRole = Role::query()->where('auth_code', 'unverified')->firstOrFail();
+    $registeredRole = Role::query()->where('auth_code', 'registered')->firstOrFail();
 
-        $verificationUrl = URL::temporarySignedRoute(
-            'verification.verify',
-            now()->addMinutes(60),
-            ['id' => $user->id, 'hash' => sha1($user->email)]
-        );
+    $user = User::factory()->for($unverifiedRole)->create(['email_verified_at' => null]);
 
-        $this->actingAs($user)->get($verificationUrl);
+    $verificationUrl = URL::temporarySignedRoute(
+        'verification.verify',
+        now()->addMinutes(60),
+        ['id' => $user->id, 'hash' => sha1($user->email)]
+    );
 
-        expect($user->fresh()
-            ->hasVerifiedEmail())->toBeTrue()
-            ->and($user->role_id)->toBe($registeredRole->id);
-    });
+    $this->actingAs($user)->get($verificationUrl);
+
+    expect($user->fresh()
+        ->hasVerifiedEmail())->toBeTrue()
+        ->and($user->role_id)->toBe($registeredRole->id);
+});

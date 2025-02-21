@@ -37,9 +37,9 @@ class UserAdministrationResource extends JsonResource
             'can' => [
                 'delete' => $request->user()?->can('delete', $this->resource),
                 'changerole' => $request->user()?->can('changerole', $this->resource),
-                //'timeout' => $request->user()?->can('timeout', $this->resource),
+                // 'timeout' => $request->user()?->can('timeout', $this->resource),
                 'disable' => $request->user()?->can('disable', $this->resource),
-            ]
+            ],
         ];
     }
 }

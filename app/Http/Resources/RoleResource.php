@@ -22,7 +22,7 @@ class RoleResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'auth_code' => $this->auth_code
+            'auth_code' => $this->auth_code,
         ];
     }
 }

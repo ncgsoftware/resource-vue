@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\UserRole;
 use Database\Factories\UserFactory;
 use DateTime;
@@ -31,6 +30,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /** @use HasFactory<UserFactory> */
     use HasFactory;
+
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
@@ -71,8 +71,6 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * Get the 'auth_code' attribute value appended to model from the role relationship.
      * This appended 'auth_code' attribute is used in HandleInertiaRequests and is used for authorization level checks.
-     *
-     * @return string
      */
     public function getAuthCodeAttribute(): string
     {
@@ -81,8 +79,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * User belongs to a role.
-     *
-     * @return BelongsTo
      */
     public function role(): BelongsTo
     {

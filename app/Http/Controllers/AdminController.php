@@ -15,7 +15,6 @@ class AdminController extends Controller
     /**
      * Admin dashboard view.
      *
-     * @param  Request  $request
      * @return \Inertia\Response
      */
     public function dashboard(Request $request)

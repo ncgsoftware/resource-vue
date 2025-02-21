@@ -1,6 +1,6 @@
 <?php
 
-    use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminController;
 
-    arch()->preset()->laravel()
-        ->ignoring(AdminController::class);
+arch()->preset()->laravel()
+    ->ignoring(AdminController::class);

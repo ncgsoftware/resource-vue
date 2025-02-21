@@ -1,7 +1,7 @@
 <?php
 
-    use App\Enums\UserRole;
-    use App\Models\User;
+use App\Enums\UserRole;
+use App\Models\User;
 
 //    test('returns correct role cast', function () {
 //        $user = User::factory()->create([
