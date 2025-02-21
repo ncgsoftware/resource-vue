@@ -2,7 +2,8 @@ version: 8.2
 
 preset: laravel
 
-enabled:
+disabled:
+  - trailing_comma_in_multiline_array
 
 finder:
   exclude:
