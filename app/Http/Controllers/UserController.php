@@ -1,6 +1,6 @@
 <?php
 
-    namespace App\Http\Controllers;
+namespace App\Http\Controllers;
 
     use App\Http\Resources\RoleResource;
     use App\Http\Resources\UserAdministrationResource;
@@ -13,7 +13,6 @@
 
     class UserController extends Controller
     {
-
         /**
          * Display a listing of the resource.
          */
@@ -32,11 +31,11 @@
 //                    });
 //                })
                 //If we have a specific role requested, limit to users of that role only
-                ->when($role, fn(Builder $query) => $query->whereBelongsTo($role))
+                ->when($role, fn (Builder $query) => $query->whereBelongsTo($role))
                 //If search query is requested
                 ->when(
                     $request->query('query'),
-                    fn(Builder $query) => $query
+                    fn (Builder $query) => $query
                         ->whereAny(['name', 'email'], 'like', '%'.$request->query('query').'%'))
                 ->paginate()
                 ->appends(request()->only(['query']));
@@ -49,8 +48,8 @@
 
             return Inertia::render('Admin/Users/Index', [
                 'users' => UserAdministrationResource::collection($users),
-                'roles' => fn() => RoleResource::collection($applicableRoles),
-                'selectedRole' => fn() => $role ? RoleResource::make($role) : null,
+                'roles' => fn () => RoleResource::collection($applicableRoles),
+                'selectedRole' => fn () => $role ? RoleResource::make($role) : null,
                 'query' => $request->query('query'),
             ]);
         }

@@ -1,6 +1,6 @@
 <?php
 
-    namespace App\Providers;
+namespace App\Providers;
 
     use Illuminate\Http\Resources\Json\JsonResource;
     use Illuminate\Http\Resources\Json\ResourceCollection;
@@ -23,7 +23,7 @@
          */
         public function boot(): void
         {
-            if (!$this->app->runningUnitTests()) {
+            if (! $this->app->runningUnitTests()) {
                 return;
             }
 
@@ -52,7 +52,7 @@
             });
 
             TestResponse::macro('assertComponent', function (string $component) {
-                return $this->assertInertia(fn(AssertableInertia $inertia) => $inertia->component($component, true));
+                return $this->assertInertia(fn (AssertableInertia $inertia) => $inertia->component($component, true));
             });
         }
     }
