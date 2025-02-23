@@ -2,8 +2,8 @@
 
 namespace App\Listeners;
 
-use App\Models\Role;
 use Illuminate\Auth\Events\Verified;
+use Spatie\Permission\Models\Role;
 
 /**
  * Listens for Illuminate\Auth\Events\Verified to be dispatched
@@ -16,7 +16,7 @@ class UpdateUserRoleOnEmailVerificationListener
      */
     public function handle(Verified $event): void
     {
-        //        $role = Role::query()->where('auth_code', 'registered')->firstOrFail();
-        //        $event->user->role()->associate($role)->save();
+        $registeredRole = Role::where('name', 'Registered')->firstOrFail();
+        $event->user->syncRoles($registeredRole);
     }
 }

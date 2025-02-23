@@ -22,7 +22,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property DateTime $email_verified_at
  * @property int $role_id
  */
-class User extends Authenticatable // implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens;
 

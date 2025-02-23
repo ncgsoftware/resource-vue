@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Resources\RoleResource;
 use App\Http\Resources\UserAdministrationResource;
 use App\Models\User;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Inertia\Testing\AssertableInertia as Assert;
 use Spatie\Permission\Models\Role;
 
@@ -38,6 +39,7 @@ it('allows managers, admins, and super admins to access user list', function (Us
     [fn () => User::role('Manager')->first(), 'Manager'],
 ]);
 
+// If User implements MustVerifyEmail then 'AdminController/RedirectsUnverifiedEmailUsersTest' will be the test for 'Unverified' Role users
 it('disallows moderators, registered users, and unverified users to see user list',
     function (User $user, string $error) {
         actingAs($user)
@@ -46,7 +48,7 @@ it('disallows moderators, registered users, and unverified users to see user lis
     })->with([
         [fn () => User::role('Moderator')->first(), 'Moderator'],
         [fn () => User::role('Registered')->first(), 'Registered User'],
-        [fn () => User::role('Unverified')->first(), 'Unverified User'],
+        // [fn () => User::role('Unverified')->first(), 'Unverified User'],
     ]);
 
 it('passes a users property to the view', function () {
