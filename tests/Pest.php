@@ -12,15 +12,14 @@
 | need to change it using the "pest()" function to bind a different classes or traits.
 |
 */
-use Database\Seeders\RoleSeeder;
 
 pest()->extend(Tests\TestCase::class)
     ->use(Illuminate\Foundation\Testing\LazilyRefreshDatabase::class)
-    ->in('Feature')
-    ->beforeEach(function () {
-        $this->seed(RoleSeeder::class);
-    })
-    ->in('Feature', 'Unit');
+    ->in('Feature');
+//    ->beforeEach(function () {
+//        $this->seed(TestingUserRolePermissionsSeeder::class);
+//    })
+//    ->in('Feature', 'Unit');
 
 /*
 |--------------------------------------------------------------------------

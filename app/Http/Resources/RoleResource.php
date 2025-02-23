@@ -8,7 +8,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * @property int $id
  * @property string $name
- * @property string $auth_code
  */
 class RoleResource extends JsonResource
 {
@@ -22,7 +21,6 @@ class RoleResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'auth_code' => $this->auth_code,
         ];
     }
 }

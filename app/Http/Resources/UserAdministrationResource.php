@@ -33,7 +33,7 @@ class UserAdministrationResource extends JsonResource
             'profile_photo_url' => $this->profile_photo_url,
             'updated_at' => $this->updated_at,
             'created_at' => $this->created_at,
-            'role_name' => $this->role->name,
+            'roles_names' => $this->getRoleNames(), // Function provided by spatie for user model
             'can' => [
                 'delete' => $request->user()?->can('delete', $this->resource),
                 'changerole' => $request->user()?->can('changerole', $this->resource),

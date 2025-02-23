@@ -27,7 +27,7 @@ const clearSearch = () => {
   <AdminLayout title="User Administration">
     <template #header>
       <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-          User Administration
+        User Administration
       </h2>
     </template>
 
@@ -43,24 +43,24 @@ const clearSearch = () => {
             <div class="border-b border-gray-200">
               <menu class="flex flex-wrap space-x-3 mb-4">
                 <li>
-                  <Pill :href="route('admin.users.index', { query: searchForm.query })"
-                        :filled="!selectedRole">
+                  <Pill :filled="!selectedRole"
+                        :href="route('admin.users.index', { query: searchForm.query })">
                     <span class="font-bold text-lg group-hover:text-indigo-500">All Users</span>
                   </Pill>
                 </li>
                 <li v-for="role in roles.data" :key="role.id">
-                  <Pill :href="route('admin.users.index', { role: role.id, query: searchForm.query })"
-                        :filled="role.id === selectedRole?.data.id">
+                  <Pill :filled="role.id === selectedRole?.data.id"
+                        :href="route('admin.users.index', { role: role.id, query: searchForm.query })">
                     <span class="font-bold text-lg group-hover:text-indigo-500">{{ role.name }}</span>
                   </Pill>
                 </li>
               </menu>
 
-              <form @submit.prevent="search" class="mt-4 mb-4">
+              <form class="mt-4 mb-4" @submit.prevent="search">
                 <div>
-                  <InputLabel for="query" class="sr-only">Search</InputLabel>
+                  <InputLabel class="sr-only" for="query">Search</InputLabel>
                   <div class="flex space-x-2 mt-1">
-                    <TextInput v-model="searchForm.query" class="w-full" id="query" placeholder="Search..." />
+                    <TextInput id="query" v-model="searchForm.query" class="w-full" placeholder="Search..."/>
                     <SecondaryButton type="submit">Search</SecondaryButton>
                     <DangerButton v-if="searchForm.query" @click="clearSearch">Clear</DangerButton>
                   </div>
@@ -82,26 +82,27 @@ const clearSearch = () => {
 
               <tr v-for="user in users.data" :key="user.id" class="border-t-gray-200 border-t">
                 <td class="py-4">
-                  <img class="size-8 rounded-full object-cover" :src="user.profile_photo_url" alt="">
+                  <img :src="user.profile_photo_url" alt="" class="size-8 rounded-full object-cover">
                 </td>
-                <td class="py-4">{{ user.name}}</td>
+                <td class="py-4">{{ user.name }}</td>
                 <td class="py-4">{{ user.email }}</td>
-                <td class="py-4">{{ user.role_name }}</td>
+                <td class="py-4"><span v-for="display_role_name in user.roles_names">{{ display_role_name }}</span></td>
                 <td class="flex py-4 justify-end">
 
-                  <a v-if="user.can.disable" href=""
-                     class="bg-gray-500 hover:bg-gray-600 mr-1 py-2 px-3 rounded-md text-white">
+                  <a v-if="user.can.disable" class="bg-gray-500 hover:bg-gray-600 mr-1 py-2 px-3 rounded-md text-white"
+                     href="">
                     Disable
                   </a>
 
-                  <a v-if="user.can.changerole" href=""
-                     class="bg-gray-500 hover:bg-gray-600 mr-1 py-2 px-3 rounded-md text-white">
+                  <a v-if="user.can.changerole"
+                     class="bg-gray-500 hover:bg-gray-600 mr-1 py-2 px-3 rounded-md text-white"
+                     href="">
                     Change Role
                   </a>
 
                   <form v-if="user.can.delete"
-                      method="post" action=""
-                      onsubmit="return confirm('Are you sure you want to delete this user?')"
+                        action="" method="post"
+                        onsubmit="return confirm('Are you sure you want to delete this user?')"
                   >
                     <button
                         class="bg-red-400 hover:bg-red-500 py-2 px-3 rounded-md text-white">
@@ -112,7 +113,7 @@ const clearSearch = () => {
               </tr>
               </tbody>
             </table>
-            <Pagination :meta="users.meta" />
+            <Pagination :meta="users.meta"/>
           </div>
         </div>
       </div>

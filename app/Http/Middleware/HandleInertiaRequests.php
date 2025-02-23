@@ -47,7 +47,6 @@ class HandleInertiaRequests extends Middleware
                         'name',
                         'profile_photo_path',
                         'profile_photo_url',
-                        'auth_code',
                     ]);
 
                     $attributes['permissions']['view_admin_dashboard'] = $request->user()?->can('viewAdminDashboard',
@@ -57,14 +56,14 @@ class HandleInertiaRequests extends Middleware
                         ? $attributes['permissions']['view_admin_user_list'] = $request->user()?->can('viewAny',
                             User::class)
                         : null;
-                    //                    if ($request->routeIs('admin.*')){
-                    //                        $attributes['permissions']['view_admin_user_list'] = $request->user()?->can('viewAny', User::class);
-                    //                    }
+                    if ($request->routeIs('admin.*')) {
+                        $attributes['permissions']['view_admin_user_list'] = $request->user()?->can('viewAny', User::class);
+                    }
                 }
 
                 return $attributes;
                 //                return $request->user()
-                //                    ? $request->user()->only(['id', 'name', 'profile_photo_path', 'profile_photo_url', 'auth_code'])
+                //                ? $request->user()->only(['id', 'name', 'profile_photo_path', 'profile_photo_url'])
                 //                    : null;
             },
         ]);

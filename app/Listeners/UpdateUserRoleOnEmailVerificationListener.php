@@ -16,7 +16,7 @@ class UpdateUserRoleOnEmailVerificationListener
      */
     public function handle(Verified $event): void
     {
-        $role = Role::query()->where('auth_code', 'registered')->firstOrFail();
-        $event->user->role()->associate($role)->save();
+        //        $role = Role::query()->where('auth_code', 'registered')->firstOrFail();
+        //        $event->user->role()->associate($role)->save();
     }
 }

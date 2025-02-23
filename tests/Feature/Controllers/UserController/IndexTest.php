@@ -5,9 +5,9 @@ declare(strict_types=1);
 use App\Http\Controllers\UserController;
 use App\Http\Resources\RoleResource;
 use App\Http\Resources\UserAdministrationResource;
-use App\Models\Role;
 use App\Models\User;
 use Inertia\Testing\AssertableInertia as Assert;
+use Spatie\Permission\Models\Role;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
@@ -21,8 +21,7 @@ it('requires authentication', function () {
 });
 
 it('should return the correct component', function () {
-    $adminRole = Role::where(['auth_code' => 'super-admin'])->first();
-    $superAdmin = User::factory()->for($adminRole)->create();
+    $superAdmin = User::role('Super Admin')->first();
 
     actingAs($superAdmin)
         ->get(route('admin.users.index'))
@@ -34,9 +33,9 @@ it('allows managers, admins, and super admins to access user list', function (Us
         ->get(route('admin.users.index'))
         ->assertComponent('Admin/Users/Index');
 })->with([
-    [fn () => User::factory()->create(['role_id' => Role::where(['auth_code' => 'super-admin'])->first()]), 'Super Administrator'],
-    [fn () => User::factory()->create(['role_id' => Role::where(['auth_code' => 'admin'])->first()]), 'Administrator'],
-    [fn () => User::factory()->create(['role_id' => Role::where(['auth_code' => 'manager'])->first()]), 'Manager'],
+    [fn () => User::role('Super Admin')->first(), 'Super Administrator'],
+    [fn () => User::role('Administrator')->first(), 'Administrator'],
+    [fn () => User::role('Manager')->first(), 'Manager'],
 ]);
 
 it('disallows moderators, registered users, and unverified users to see user list',
@@ -45,14 +44,13 @@ it('disallows moderators, registered users, and unverified users to see user lis
             ->get(route('admin.users.index'))
             ->assertForbidden();
     })->with([
-        [fn () => User::factory()->create(['role_id' => Role::where(['auth_code' => 'moderator'])->first()]), 'Moderator'],
-        [fn () => User::factory()->create(['role_id' => Role::where(['auth_code' => 'registered'])->first()]), 'Registered User'],
-        [fn () => User::factory()->create(['role_id' => Role::where(['auth_code' => 'unverified'])->first()]), 'Unverified User'],
+        [fn () => User::role('Moderator')->first(), 'Moderator'],
+        [fn () => User::role('Registered')->first(), 'Registered User'],
+        [fn () => User::role('Unverified')->first(), 'Unverified User'],
     ]);
 
 it('passes a users property to the view', function () {
-    $adminRole = Role::where(['auth_code' => 'super-admin'])->first();
-    $superAdmin = User::factory()->for($adminRole)->create();
+    $superAdmin = User::role('Super Admin')->first();
 
     actingAs($superAdmin)
         ->get(route('admin.users.index'))
@@ -62,12 +60,8 @@ it('passes a users property to the view', function () {
         );
 });
 
-it('it gets paginated resource', function () {
-    withoutExceptionHandling();
-    $adminRole = Role::where(['auth_code' => 'super-admin'])->first();
-    $superAdmin = User::factory()->for($adminRole)->create();
-
-    User::factory(2)->create();
+it('gets paginated resource', function () {
+    $superAdmin = User::role('Super Admin')->first();
 
     actingAs($superAdmin)
         ->get(route('admin.users.index'))
@@ -76,9 +70,8 @@ it('it gets paginated resource', function () {
         );
 });
 
-it('it passes Roles to the view', function () {
-    $adminRole = Role::where(['auth_code' => 'super-admin'])->first();
-    $superAdmin = User::factory()->for($adminRole)->create();
+it('passes Roles to the view', function () {
+    $superAdmin = User::role('Super Admin')->first();
 
     $roles = Role::all();
 
@@ -87,11 +80,10 @@ it('it passes Roles to the view', function () {
         ->assertHasResource('roles', RoleResource::collection($roles));
 });
 
-it('it passes selected role to the view', function () {
-    $adminRole = Role::where(['auth_code' => 'super-admin'])->first();
-    $superAdmin = User::factory()->for($adminRole)->create();
+it('passes selected role to the view', function () {
+    $superAdmin = User::role('Super Admin')->first();
 
-    $selectedRole = Role::where(['auth_code' => 'manager'])->first();
+    $selectedRole = Role::where(['name' => 'manager'])->first();
 
     actingAs($superAdmin)
         ->get(route('admin.users.index', ['role' => $selectedRole]))
