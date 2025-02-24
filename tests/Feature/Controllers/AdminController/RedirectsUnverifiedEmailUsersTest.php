@@ -1,5 +1,8 @@
 <?php
 
+declare(strict_types=1);
+
+use App\Enums\RolesEnum;
 use App\Models\User;
 
 use function Pest\Laravel\actingAs;
@@ -10,5 +13,5 @@ it('redirects unverified users to login page', function (User $user, string $err
         ->get(route('admin.users.index'))
         ->assertRedirect(url('email/verify'));
 })->with([
-    [fn () => User::role('Unverified')->first(), 'Unverified User'],
+    [fn () => User::role(RolesEnum::UNVERIFIED_USER)->first(), 'Unverified User'],
 ]);

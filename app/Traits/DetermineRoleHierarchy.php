@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Enums\RolesEnum;
 use App\Models\User;
 
 trait DetermineRoleHierarchy
@@ -14,15 +15,20 @@ trait DetermineRoleHierarchy
      */
     public function determineRolesUserIsAllowedToDisplay(User $user): array
     {
-        $rolesToReturn = ['Unverified', 'Registered', 'Moderator', 'Manager'];
+        $rolesToReturn = [
+            RolesEnum::UNVERIFIED_USER->value,
+            RolesEnum::REGISTERED_USER->value,
+            RolesEnum::MODERATOR->value,
+            RolesEnum::MANAGER->value,
+        ];
 
-        if ($user->hasRole('Administrator')) {
-            $rolesToReturn[] = 'Administrator';
+        if ($user->hasRole(RolesEnum::ADMINISTRATOR)) {
+            $rolesToReturn[] = RolesEnum::ADMINISTRATOR->value;
         }
 
-        if ($user->hasRole('Super Admin')) {
-            $rolesToReturn[] = 'Administrator';
-            $rolesToReturn[] = 'Super Admin';
+        if ($user->hasRole(RolesEnum::SUPER_ADMIN)) {
+            $rolesToReturn[] = RolesEnum::ADMINISTRATOR->value;
+            $rolesToReturn[] = RolesEnum::SUPER_ADMIN->value;
         }
 
         return array_unique($rolesToReturn);
@@ -36,15 +42,19 @@ trait DetermineRoleHierarchy
      */
     public function determineRolesUserIsAllowedToManipulate(User $user): array
     {
-        $rolesToReturn = ['Unverified', 'Registered', 'Moderator'];
+        $rolesToReturn = [
+            RolesEnum::UNVERIFIED_USER->value,
+            RolesEnum::REGISTERED_USER->value,
+            RolesEnum::MODERATOR->value,
+        ];
 
-        if ($user->hasRole('Administrator')) {
-            $rolesToReturn[] = 'Manager';
+        if ($user->hasRole(RolesEnum::ADMINISTRATOR)) {
+            $rolesToReturn[] = RolesEnum::MANAGER->value;
         }
 
-        if ($user->hasRole('Super Admin')) {
-            $rolesToReturn[] = 'Manager';
-            $rolesToReturn[] = 'Administrator';
+        if ($user->hasRole(RolesEnum::SUPER_ADMIN)) {
+            $rolesToReturn[] = RolesEnum::MANAGER->value;
+            $rolesToReturn[] = RolesEnum::ADMINISTRATOR->value;
         }
 
         return array_unique($rolesToReturn);

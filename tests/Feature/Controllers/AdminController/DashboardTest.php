@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Enums\RolesEnum;
 use App\Models\User;
 
 use function Pest\Laravel\actingAs;
@@ -13,7 +14,7 @@ it('requires authentication', function () {
 });
 
 it('should return the correct component', function () {
-    $superAdmin = User::role('Super Admin')->first();
+    $superAdmin = User::role(RolesEnum::SUPER_ADMIN)->first();
 
     actingAs($superAdmin)
         ->get(route('admin.dashboard'))
@@ -25,9 +26,9 @@ it('allows managers, admins, and super admins to access dashboard', function (Us
         ->get(route('admin.dashboard'))
         ->assertComponent('Admin/Index');
 })->with([
-    [fn () => User::role('Super Admin')->first(), 'Super Administrator'],
-    [fn () => User::role('Administrator')->first(), 'Administrator'],
-    [fn () => User::role('Manager')->first(), 'Manager'],
+    [fn () => User::role(RolesEnum::SUPER_ADMIN)->first(), 'Super Administrator'],
+    [fn () => User::role(RolesEnum::ADMINISTRATOR)->first(), 'Administrator'],
+    [fn () => User::role(RolesEnum::MANAGER)->first(), 'Manager'],
 ]);
 
 // If User implements MustVerifyEmail then 'AdminController/RedirectsUnverifiedEmailUsersTest' will be the test for 'Unverified' Role users
@@ -37,7 +38,7 @@ it('disallows moderators, registered users, and unverified users to see user lis
             ->get(route('admin.dashboard'))
             ->assertForbidden();
     })->with([
-        [fn () => User::role('Moderator')->first(), 'Moderator'],
-        [fn () => User::role('Registered')->first(), 'Registered User'],
-        // [fn () => User::role('Unverified')->first(), 'Unverified User'],
+        [fn () => User::role(RolesEnum::MODERATOR)->first(), 'Moderator'],
+        [fn () => User::role(RolesEnum::REGISTERED_USER)->first(), 'Registered User'],
+        // [fn () => User::role(RolesEnum::UNVERIFIED_USER)->first(), 'Unverified User'],
     ]);

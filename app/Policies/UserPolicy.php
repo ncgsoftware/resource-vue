@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Enums\RolesEnum;
 use App\Models\User;
 use App\Traits\DetermineRoleHierarchy;
 
@@ -14,7 +15,12 @@ class UserPolicy
      */
     public function viewAdminDashboard(User $user): bool
     {
-        return $user->hasAnyRole(['Super Admin', 'Administrator', 'Manager']);
+        // dd($user->roles());
+
+        return $user->hasAnyRole([
+            RolesEnum::SUPER_ADMIN->value,
+            RolesEnum::ADMINISTRATOR->value,
+            RolesEnum::MANAGER->value, ]);
     }
 
     /**
@@ -22,7 +28,10 @@ class UserPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasAnyRole(['Super Admin', 'Administrator', 'Manager']);
+        return $user->hasAnyRole([
+            RolesEnum::SUPER_ADMIN,
+            RolesEnum::ADMINISTRATOR,
+            RolesEnum::MANAGER, ]);
 
     }
 
@@ -48,11 +57,14 @@ class UserPolicy
     public function update(User $user, User $model): bool
     {
         // Super Admins can only edit themselves through Jetstream profile
-        if ($model->hasRole('Super Admin')) {
+        if ($model->hasRole(RolesEnum::SUPER_ADMIN)) {
             return false;
         }
 
-        return $user->hasAnyRole(['Super Admin', 'Administrator', 'Manager']);
+        return $user->hasAnyRole([
+            RolesEnum::SUPER_ADMIN,
+            RolesEnum::ADMINISTRATOR,
+            RolesEnum::MANAGER, ]);
     }
 
     /**
@@ -65,16 +77,16 @@ class UserPolicy
         }
 
         // No one can delete a super admin
-        if ($model->hasRole('Super Admin')) {
+        if ($model->hasRole(RolesEnum::SUPER_ADMIN)) {
             return false;
         }
 
         // Only super admins can delete admins
-        if ($model->hasRole('Administrator') && ! $user->hasRole('Super Admin')) {
+        if ($model->hasRole(RolesEnum::ADMINISTRATOR) && ! $user->hasRole(RolesEnum::SUPER_ADMIN)) {
             return false;
         }
 
-        return $user->hasAnyRole(['Super Admin', 'Administrator']);
+        return $user->hasAnyRole([RolesEnum::SUPER_ADMIN, RolesEnum::ADMINISTRATOR]);
     }
 
     /**
@@ -103,7 +115,7 @@ class UserPolicy
         }
 
         // No one can change a Super Admin role
-        if ($model->hasRole('Super Admin')) {
+        if ($model->hasRole(RolesEnum::SUPER_ADMIN)) {
             return false;
         }
 
@@ -119,7 +131,7 @@ class UserPolicy
         }
 
         // No one can change a Super Admin role
-        if ($model->hasRole('Super Admin')) {
+        if ($model->hasRole(RolesEnum::SUPER_ADMIN)) {
             return false;
         }
 

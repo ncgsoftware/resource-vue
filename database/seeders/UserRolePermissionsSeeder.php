@@ -2,7 +2,8 @@
 
 namespace Database\Seeders;
 
-// use App\Models\Role;
+use App\Enums\PermissionsEnum;
+use App\Enums\RolesEnum;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
@@ -19,71 +20,71 @@ class UserRolePermissionsSeeder extends Seeder
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         // create user permissions
-        Permission::create(['name' => 'View All Users']);
-        Permission::create(['name' => 'View Users']);
-        Permission::create(['name' => 'Create Users']);
-        Permission::create(['name' => 'Update Users']);
-        Permission::create(['name' => 'Delete Users']);
+        Permission::create(['name' => PermissionsEnum::VIEW_ALL_USERS->value]);
+        Permission::create(['name' => PermissionsEnum::VIEW_USER->value]);
+        Permission::create(['name' => PermissionsEnum::CREATE_USER->value]);
+        Permission::create(['name' => PermissionsEnum::UPDATE_USER->value]);
+        Permission::create(['name' => PermissionsEnum::DELETE_USER->value]);
 
         // create resource permissions
-        Permission::create(['name' => 'View All Resources']);
-        Permission::create(['name' => 'View Resources']);
-        Permission::create(['name' => 'Create Resources']);
-        Permission::create(['name' => 'Update Resources']);
-        Permission::create(['name' => 'Update Own Resources']);
-        Permission::create(['name' => 'Delete Resources']);
-        Permission::create(['name' => 'Delete Own Resources']);
+        Permission::create(['name' => PermissionsEnum::VIEW_ALL_RESOURCES->value]);
+        Permission::create(['name' => PermissionsEnum::VIEW_RESOURCE->value]);
+        Permission::create(['name' => PermissionsEnum::CREATE_RESOURCE->value]);
+        Permission::create(['name' => PermissionsEnum::UPDATE_RESOURCE->value]);
+        Permission::create(['name' => PermissionsEnum::UPDATE_OWN_RESOURCE->value]);
+        Permission::create(['name' => PermissionsEnum::DELETE_RESOURCE->value]);
+        Permission::create(['name' => PermissionsEnum::DELETE_OWN_RESOURCE->value]);
 
-        Permission::create(['name' => 'None']);
+        Permission::create(['name' => PermissionsEnum::NO_PERMISSIONS->value]);
 
-        $superAdminRole = Role::create(['name' => 'Super Admin']);
+        $superAdminRole = Role::create(['name' => RolesEnum::SUPER_ADMIN->value]);
 
         // create roles and assign existing permissions
-        $adminRole = Role::create(['name' => 'Administrator']);
-        $adminRole->givePermissionTo('View All Users');
-        $adminRole->givePermissionTo('View Users');
-        $adminRole->givePermissionTo('Create Users');
-        $adminRole->givePermissionTo('Update Users');
-        $adminRole->givePermissionTo('Delete Users');
+        $adminRole = Role::create(['name' => RolesEnum::ADMINISTRATOR->value]);
+        $adminRole->givePermissionTo(PermissionsEnum::VIEW_ALL_USERS);
+        $adminRole->givePermissionTo(PermissionsEnum::VIEW_USER);
+        $adminRole->givePermissionTo(PermissionsEnum::CREATE_USER);
+        $adminRole->givePermissionTo(PermissionsEnum::UPDATE_USER);
+        $adminRole->givePermissionTo(PermissionsEnum::DELETE_USER);
 
-        $adminRole->givePermissionTo('View All Resources');
-        $adminRole->givePermissionTo('View Resources');
-        $adminRole->givePermissionTo('Create Resources');
-        $adminRole->givePermissionTo('Update Resources');
-        $adminRole->givePermissionTo('Update Own Resources');
-        $adminRole->givePermissionTo('Delete Resources');
-        $adminRole->givePermissionTo('Delete Own Resources');
+        $adminRole->givePermissionTo(PermissionsEnum::VIEW_ALL_RESOURCES);
+        $adminRole->givePermissionTo(PermissionsEnum::VIEW_RESOURCE);
+        $adminRole->givePermissionTo(PermissionsEnum::CREATE_RESOURCE);
+        $adminRole->givePermissionTo(PermissionsEnum::UPDATE_RESOURCE);
+        $adminRole->givePermissionTo(PermissionsEnum::UPDATE_OWN_RESOURCE);
+        $adminRole->givePermissionTo(PermissionsEnum::DELETE_RESOURCE);
+        $adminRole->givePermissionTo(PermissionsEnum::DELETE_OWN_RESOURCE);
 
-        $managerRole = Role::create(['name' => 'Manager']);
-        $managerRole->givePermissionTo('View Users');
-        $managerRole->givePermissionTo('Update Users');
-        $managerRole->givePermissionTo('Delete Users');
+        $managerRole = Role::create(['name' => RolesEnum::MANAGER->value]);
+        $managerRole->givePermissionTo(PermissionsEnum::VIEW_USER);
+        $managerRole->givePermissionTo(PermissionsEnum::CREATE_USER);
+        $managerRole->givePermissionTo(PermissionsEnum::DELETE_USER);
 
-        $managerRole->givePermissionTo('View All Resources');
-        $managerRole->givePermissionTo('View Resources');
-        $managerRole->givePermissionTo('Create Resources');
-        $managerRole->givePermissionTo('Update Resources');
-        $managerRole->givePermissionTo('Update Own Resources');
-        $managerRole->givePermissionTo('Delete Resources');
-        $managerRole->givePermissionTo('Delete Own Resources');
+        $managerRole->givePermissionTo(PermissionsEnum::VIEW_ALL_RESOURCES);
+        $managerRole->givePermissionTo(PermissionsEnum::VIEW_RESOURCE);
+        $managerRole->givePermissionTo(PermissionsEnum::CREATE_RESOURCE);
+        $managerRole->givePermissionTo(PermissionsEnum::UPDATE_RESOURCE);
+        $managerRole->givePermissionTo(PermissionsEnum::UPDATE_OWN_RESOURCE);
+        $managerRole->givePermissionTo(PermissionsEnum::DELETE_RESOURCE);
+        $managerRole->givePermissionTo(PermissionsEnum::DELETE_OWN_RESOURCE);
 
-        $moderatorRole = Role::create(['name' => 'Moderator']);
-        $moderatorRole->givePermissionTo('View Users');
+        $moderatorRole = Role::create(['name' => RolesEnum::MODERATOR->value]);
+        $moderatorRole->givePermissionTo(PermissionsEnum::VIEW_USER);
 
-        $moderatorRole->givePermissionTo('View All Resources');
-        $moderatorRole->givePermissionTo('View Resources');
-        $moderatorRole->givePermissionTo('Create Resources');
-        $moderatorRole->givePermissionTo('Update Resources');
-        $moderatorRole->givePermissionTo('Update Own Resources');
+        $moderatorRole->givePermissionTo(PermissionsEnum::VIEW_ALL_RESOURCES);
+        $moderatorRole->givePermissionTo(PermissionsEnum::VIEW_RESOURCE);
+        $moderatorRole->givePermissionTo(PermissionsEnum::CREATE_RESOURCE);
+        $moderatorRole->givePermissionTo(PermissionsEnum::UPDATE_RESOURCE);
+        $moderatorRole->givePermissionTo(PermissionsEnum::DELETE_OWN_RESOURCE);
 
-        $registeredUserRole = Role::create(['name' => 'Registered']);
-        $registeredUserRole->givePermissionTo('View All Resources');
-        $registeredUserRole->givePermissionTo('View Resources');
-        $registeredUserRole->givePermissionTo('Create Resources');
-        $registeredUserRole->givePermissionTo('Update Own Resources');
+        $registeredUserRole = Role::create(['name' => RolesEnum::REGISTERED_USER->value]);
+        $registeredUserRole->givePermissionTo(PermissionsEnum::VIEW_ALL_RESOURCES);
+        $registeredUserRole->givePermissionTo(PermissionsEnum::VIEW_RESOURCE);
+        $registeredUserRole->givePermissionTo(PermissionsEnum::CREATE_RESOURCE);
+        $registeredUserRole->givePermissionTo(PermissionsEnum::UPDATE_OWN_RESOURCE);
 
-        $unverifiedUserRole = Role::create(['name' => 'Unverified']);
-        $unverifiedUserRole->givePermissionTo('None');
+        $unverifiedUserRole = Role::create(['name' => RolesEnum::UNVERIFIED_USER->value]);
+        $unverifiedUserRole->givePermissionTo(PermissionsEnum::NO_PERMISSIONS);
 
         $user = User::factory()->create([
             'name' => 'Super Admin',

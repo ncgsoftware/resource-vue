@@ -2,17 +2,16 @@
 
 declare(strict_types=1);
 
+use App\Enums\RolesEnum;
 use App\Http\Controllers\UserController;
 use App\Http\Resources\RoleResource;
 use App\Http\Resources\UserAdministrationResource;
 use App\Models\User;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Inertia\Testing\AssertableInertia as Assert;
 use Spatie\Permission\Models\Role;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
-use function Pest\Laravel\withoutExceptionHandling;
 
 covers(UserController::class);
 
@@ -22,7 +21,7 @@ it('requires authentication', function () {
 });
 
 it('should return the correct component', function () {
-    $superAdmin = User::role('Super Admin')->first();
+    $superAdmin = User::role(RolesEnum::SUPER_ADMIN)->first();
 
     actingAs($superAdmin)
         ->get(route('admin.users.index'))
@@ -34,9 +33,9 @@ it('allows managers, admins, and super admins to access user list', function (Us
         ->get(route('admin.users.index'))
         ->assertComponent('Admin/Users/Index');
 })->with([
-    [fn () => User::role('Super Admin')->first(), 'Super Administrator'],
-    [fn () => User::role('Administrator')->first(), 'Administrator'],
-    [fn () => User::role('Manager')->first(), 'Manager'],
+    [fn () => User::role(RolesEnum::SUPER_ADMIN)->first(), 'Super Administrator'],
+    [fn () => User::role(RolesEnum::ADMINISTRATOR)->first(), 'Administrator'],
+    [fn () => User::role(RolesEnum::MANAGER)->first(), 'Manager'],
 ]);
 
 // If User implements MustVerifyEmail then 'AdminController/RedirectsUnverifiedEmailUsersTest' will be the test for 'Unverified' Role users
@@ -46,13 +45,13 @@ it('disallows moderators, registered users, and unverified users to see user lis
             ->get(route('admin.users.index'))
             ->assertForbidden();
     })->with([
-        [fn () => User::role('Moderator')->first(), 'Moderator'],
-        [fn () => User::role('Registered')->first(), 'Registered User'],
-        // [fn () => User::role('Unverified')->first(), 'Unverified User'],
+        [fn () => User::role(RolesEnum::MODERATOR)->first(), 'Moderator'],
+        [fn () => User::role(RolesEnum::REGISTERED_USER)->first(), 'Registered User'],
+        // [fn () => User::role(RolesEnum::UNVERIFIED_USER)->first(), 'Unverified User'],
     ]);
 
 it('passes a users property to the view', function () {
-    $superAdmin = User::role('Super Admin')->first();
+    $superAdmin = User::role(RolesEnum::SUPER_ADMIN)->first();
 
     actingAs($superAdmin)
         ->get(route('admin.users.index'))
@@ -63,7 +62,7 @@ it('passes a users property to the view', function () {
 });
 
 it('gets paginated resource', function () {
-    $superAdmin = User::role('Super Admin')->first();
+    $superAdmin = User::role(RolesEnum::SUPER_ADMIN)->first();
 
     actingAs($superAdmin)
         ->get(route('admin.users.index'))
@@ -73,7 +72,7 @@ it('gets paginated resource', function () {
 });
 
 it('passes Roles to the view', function () {
-    $superAdmin = User::role('Super Admin')->first();
+    $superAdmin = User::role(RolesEnum::SUPER_ADMIN)->first();
 
     $roles = Role::all();
 
@@ -83,9 +82,9 @@ it('passes Roles to the view', function () {
 });
 
 it('passes selected role to the view', function () {
-    $superAdmin = User::role('Super Admin')->first();
+    $superAdmin = User::role(RolesEnum::SUPER_ADMIN)->first();
 
-    $selectedRole = Role::where(['name' => 'manager'])->first();
+    $selectedRole = Role::where(['name' => RolesEnum::MANAGER->value])->first();
 
     actingAs($superAdmin)
         ->get(route('admin.users.index', ['role' => $selectedRole]))
