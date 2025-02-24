@@ -32,7 +32,6 @@ class UserPolicy
             RolesEnum::SUPER_ADMIN,
             RolesEnum::ADMINISTRATOR,
             RolesEnum::MANAGER, ]);
-
     }
 
     /**
